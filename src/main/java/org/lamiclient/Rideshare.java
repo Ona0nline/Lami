@@ -2,6 +2,7 @@ package org.lamiclient;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -45,7 +46,7 @@ class Trip{
     }
 
     double calc_fare(double distance){
-        double fare = Math.round(distance * 3.50);
+        double fare = Math.round(distance * 10.50);
         return fare;
     }
 
@@ -99,22 +100,21 @@ class Uber extends Trip{
         double fare = 0;
         System.out.println(excuses[excuse]);
         if (excuses[excuse].equals("None")){
-            fare = distance * 2.00;
-            System.out.println("Fare: R" + fare);
+            System.out.println("Fare: R" + super.calc_fare(distance));
 
         } else if (excuses[excuse].equals("Rain")) {
-            System.out.println("Fare: R" + super.calc_fare(distance));
+            System.out.println("Fare: R" + distance * 12.50 );
         } else if (excuses[excuse].equals("Traffic")) {
-            System.out.println("Fare: R" + super.calc_fare(distance));
+            System.out.println("Fare: R" + distance * 12.50 );
 
         } else if (quality.equals("F")){
             System.out.println("Grade F Vehicle. Fare siginificantly reduced :)");
             fare = distance;
-            System.out.println("Fare: R" + fare);
+            System.out.println("Fare: R" + distance * 5.50);
 
         }
         else if (excuses[excuse].equals("Complex Route")) {
-            System.out.println("Fare: R" + super.calc_fare(distance));
+            System.out.println("Fare: R" + distance * 12.50 );
         }
         return fare;
 
@@ -157,7 +157,7 @@ class Taxi extends Trip{
     @Override
     double calc_fare(double distance){
 //        For now, price just ,metered hardcoded, will have driver side database that specifies routes, metered costs and locations etc...
-        double fare = Math.round(distance * 3.50);
+        double fare = Math.round(distance * 10.50);
         return fare;
 
     }
@@ -202,11 +202,18 @@ class Luxury extends Trip{
     void assigndriver(){
 
             if(is_available){
-                System.out.println("Driver " + driver_name + "is picking you up");
+                System.out.println("Driver " + driver_name + " is picking you up");
                 is_available = false;
             }else{
                 System.out.println(driver_name + " is currently busy. Try another driver...");
             }
+    }
+
+    @Override
+    double calc_fare(double distance){
+        double fare = super.calc_fare(distance);
+        System.out.println("Fare: R" + distance * 18.00);
+        return fare;
     }
 
 
@@ -215,84 +222,95 @@ class Luxury extends Trip{
 }
 public class Rideshare {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 //        Client side so client focused
         ArrayList<Uber> ubers = new ArrayList<>();
-        ubers.add(new Uber("Bheki","ML 88 VJ GP",true,"C"));
-        ubers.add(new Uber("Lwazi","TZ 34 ED GP",true,"F"));
-        ubers.add(new Uber("Cameron","FB 19 GG GP",false,"B"));
-        ubers.add(new Uber("Jabulani","MM 20 FW GP",true,"A"));
-        ubers.add(new Uber("GodKnows","KJ 32 LH GP",false,"B"));
+        ubers.add(new Uber("Bheki", "ML 88 VJ GP", true, "C"));
+        ubers.add(new Uber("Lwazi", "TZ 34 ED GP", true, "F"));
+        ubers.add(new Uber("Cameron", "FB 19 GG GP", false, "B"));
+        ubers.add(new Uber("Jabulani", "MM 20 FW GP", true, "A"));
+        ubers.add(new Uber("GodKnows", "KJ 32 LH GP", false, "B"));
 
         ArrayList<Taxi> taxis = new ArrayList<>();
-       taxis.add(new Taxi("Solomon","JH 23 HG GP",true,4));
-       taxis.add(new Taxi("Gideon","LY 87 WS GP",true,12));
-       taxis.add(new Taxi("Mohammed","BH 10 JD GP",false,9));
-       taxis.add(new Taxi("Victor","IP 87 WS GP",true,2));
-       taxis.add(new Taxi("Overcome","EK 49 EH GP",false,7));
+        taxis.add(new Taxi("Solomon", "JH 23 HG GP", true, 4));
+        taxis.add(new Taxi("Gideon", "LY 87 WS GP", true, 12));
+        taxis.add(new Taxi("Mohammed", "BH 10 JD GP", false, 9));
+        taxis.add(new Taxi("Victor", "IP 87 WS GP", true, 2));
+        taxis.add(new Taxi("Overcome", "EK 49 EH GP", false, 7));
 
-       ArrayList<Luxury> luxuries = new ArrayList<>();
-       luxuries.add(new Luxury("Simanga","JJ 54 PF GP",true,
-       new String[]{"snacks", "free wifi","silent mode"},true,"Platinum"));
-        luxuries.add(new Luxury("Leo","JP 00 HD GP",false,
-                new String[]{"snacks", "free wifi","silent mode"},true,"Standard"));
-        luxuries.add(new Luxury("Kofi","TZ 65 LA GP",true,
-                new String[]{"snacks", "free wifi","silent mode"},false,"Gold"));
-        luxuries.add(new Luxury("Kieran","CJ 39 MN GP",false,
-                new String[]{"snacks", "free wifi","silent mode"},true,"Gold"));
-        luxuries.add(new Luxury("Vuyo","AD 12 IX GP",true,
-                new String[]{"snacks", "free wifi","silent mode"},true,"Gold"));
-
-
+        ArrayList<Luxury> luxuries = new ArrayList<>();
+        luxuries.add(new Luxury("Simanga", "JJ 54 PF GP", true,
+                new String[]{"wireless charging port", "free wifi", "silent mode"} , true, "Platinum"));
+        luxuries.add(new Luxury("Leo", "JP 00 HD GP", false,
+                new String[]{"snacks", "free wifi", "champagne and water"}, true, "Standard"));
+        luxuries.add(new Luxury("Kofi", "TZ 65 LA GP", true,
+                new String[]{"snacks", "tv", "champagne and water"}, false, "Gold"));
+        luxuries.add(new Luxury("Kieran", "CJ 39 MN GP", false,
+                new String[]{"snacks", "free wifi", "silent mode"}, true, "Gold"));
+        luxuries.add(new Luxury("Vuyo", "AD 12 IX GP", true,
+                new String[]{"slippers", "blankets", "sanitizers + tissues","wet wipes"}, true, "Gold"));
 
 
         Scanner input = new Scanner(System.in);
         System.out.println("Choose Ride Type:\n1.Uber\n2.Taxi\n3.Luxury");
+        int ride_type = input.nextInt();
         int index = (int) (Math.random() * ubers.size());
         input.nextLine();
-        if(input.nextInt() == 1){
+        if (ride_type == 1) {
             System.out.println("Enter distance: ");
             double distance = input.nextDouble();
-            if (ubers.get(index).is_available){
+            if (ubers.get(index).is_available) {
                 ubers.get(index).assigndriver();
                 ubers.get(index).calc_fare(distance);
                 ubers.get(index).complete_ride();
                 ubers.get(index).is_available = true;
-            }else{
+            } else {
                 ubers.get(index).assigndriver();
             }
 
-        }else if (input.nextInt() == 3) {
+        } else if (ride_type == 3) {
 //            Membership access determines certain perks and questions and ui, for now just basics
             System.out.println("Good day " + luxuries.get(index).membership + " member!\nHelp us make your ride as comfortable as possible.");
             // Inside the luxury ride section
-            System.out.println("Do you have a preferred driver in mind? (y/N)");
-            input.nextLine(); // Consume newline
+            System.out.println("Do you want to pick a driver (y/N)");
+//            input.nextLine(); // Consume newline
             String preferredDriver = input.nextLine();
 
+            Luxury selectedLuxury = null; // Store chosen luxury ride
+            ArrayList<Luxury> availableLuxuries = new ArrayList<>(); // Store available cars
+
             if (preferredDriver.equalsIgnoreCase("y")) {
+                System.out.println("Available Luxury Rides:");
+
+                int i = 1; // Numbering for easier selection
                 for (Luxury luxury : luxuries) {
                     if (luxury.is_available) {
-                        System.out.println("Available drivers: ");
-                        System.out.println(luxury);
-                        System.out.println("Enter driver name: ");
-                        String driverName = input.nextLine();
-
-                        if (driverName.equalsIgnoreCase(luxury.driver_name)) {
-                            System.out.println("Enter distance: ");
-                            luxury.assigndriver();
-                            luxury.calc_fare(input.nextDouble());
-                            luxury.is_available = false;
-                            luxury.complete_ride();
-                        }
+                        System.out.println(i + ". " + luxury.driver_name + " - " + luxury.license_plate + " - " + Arrays.toString(luxury.onboard));
+                        availableLuxuries.add(luxury); // Store the available luxury car
+                        i++;
                     }
                 }
+
+                if (availableLuxuries.isEmpty()) {
+                    System.out.println("No available luxury rides at the moment.");
+                    return;
+                }else{
+                    System.out.println("Select Driver by name: ");
+                    String selectedDriver = input.nextLine();
+                    System.out.println("Enter distance: ");
+                    double route = input.nextDouble();
+                    for (Luxury driver : availableLuxuries){
+                        if (driver.driver_name.equalsIgnoreCase(selectedDriver)){
+                            driver.assigndriver();
+                            driver.calc_fare(route);
+                            driver.complete_ride();
+                        }
+                    }
+
+                }
+
             }
 
-        }else{
-            System.out.println("cHOOSE RIDE TYPE");
         }
-
     }
-
 }
