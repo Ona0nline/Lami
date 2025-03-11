@@ -1,15 +1,14 @@
-package org.example;
+package org.lamiclient;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
-import java.sql.*;
+
+//Ui for app (luxury) = Slideshow of the cars, premium features listed with etc, dramatic tantalising design
 
 //Exclusive ride share app whereby you choose driver + car you want to driven in
 
-class DatabaseManagerClient{
-
-}
 
 class Trip{
     String driver_name;
@@ -173,7 +172,45 @@ class Taxi extends Trip{
 
 }
 
-class Luxury{
+class Luxury extends Trip{
+
+//    Future methods
+
+//    Schedule Ride – Allows users to pre-book a luxury ride.
+//Preferred Driver – Users can request a specific driver.
+//Onboard Features – Differentiate based on in-car features (e.g., WiFi, bottled water, charging ports).
+//Custom Route – Allows passengers to specify a route instead of the default GPS route.
+//Privacy Mode – No talking, tinted windows, or music control for a quieter experience.
+//Extra Security – Panic button or tracking for added safety.
+//Exclusive Memberships – Some luxury services have loyalty programs or premium access tiers. FUTURE
+
+    boolean preferred_driver;
+    String[] onboard;
+    boolean privacy;
+    String membership;
+
+    Luxury(String driver_name,String license_plate,boolean is_available,String[] onboard,boolean privacy,String membership){
+        super(driver_name,license_plate,is_available);
+        this.preferred_driver = preferred_driver;
+        this.onboard = onboard;
+        this.privacy = privacy;
+        this.membership = membership;
+    }
+
+//    User UI ask if they prefer a certain driver. If yes, display list of current availiable drivers
+    @Override
+    void assigndriver(){
+
+            if(is_available){
+                System.out.println("Driver " + driver_name + "is picking you up");
+                is_available = false;
+            }else{
+                System.out.println(driver_name + " is currently busy. Try another driver...");
+            }
+    }
+
+
+
 
 }
 public class Rideshare {
@@ -193,10 +230,26 @@ public class Rideshare {
        taxis.add(new Taxi("Mohammed","BH 10 JD GP",false,9));
        taxis.add(new Taxi("Victor","IP 87 WS GP",true,2));
        taxis.add(new Taxi("Overcome","EK 49 EH GP",false,7));
+
+       ArrayList<Luxury> luxuries = new ArrayList<>();
+       luxuries.add(new Luxury("Simanga","JJ 54 PF GP",true,
+       new String[]{"snacks", "free wifi","silent mode"},true,"Platinum"));
+        luxuries.add(new Luxury("Leo","JP 00 HD GP",false,
+                new String[]{"snacks", "free wifi","silent mode"},true,"Standard"));
+        luxuries.add(new Luxury("Kofi","TZ 65 LA GP",true,
+                new String[]{"snacks", "free wifi","silent mode"},false,"Gold"));
+        luxuries.add(new Luxury("Kieran","CJ 39 MN GP",false,
+                new String[]{"snacks", "free wifi","silent mode"},true,"Gold"));
+        luxuries.add(new Luxury("Vuyo","AD 12 IX GP",true,
+                new String[]{"snacks", "free wifi","silent mode"},true,"Gold"));
+
+
+
+
         Scanner input = new Scanner(System.in);
         System.out.println("Choose Ride Type:\n1.Uber\n2.Taxi\n3.Luxury");
         int index = (int) (Math.random() * ubers.size());
-
+        input.nextLine();
         if(input.nextInt() == 1){
             System.out.println("Enter distance: ");
             double distance = input.nextDouble();
@@ -209,6 +262,35 @@ public class Rideshare {
                 ubers.get(index).assigndriver();
             }
 
+        }else if (input.nextInt() == 3) {
+//            Membership access determines certain perks and questions and ui, for now just basics
+            System.out.println("Good day " + luxuries.get(index).membership + " member!\nHelp us make your ride as comfortable as possible.");
+            // Inside the luxury ride section
+            System.out.println("Do you have a preferred driver in mind? (y/N)");
+            input.nextLine(); // Consume newline
+            String preferredDriver = input.nextLine();
+
+            if (preferredDriver.equalsIgnoreCase("y")) {
+                for (Luxury luxury : luxuries) {
+                    if (luxury.is_available) {
+                        System.out.println("Available drivers: ");
+                        System.out.println(luxury);
+                        System.out.println("Enter driver name: ");
+                        String driverName = input.nextLine();
+
+                        if (driverName.equalsIgnoreCase(luxury.driver_name)) {
+                            System.out.println("Enter distance: ");
+                            luxury.assigndriver();
+                            luxury.calc_fare(input.nextDouble());
+                            luxury.is_available = false;
+                            luxury.complete_ride();
+                        }
+                    }
+                }
+            }
+
+        }else{
+            System.out.println("cHOOSE RIDE TYPE");
         }
 
     }
