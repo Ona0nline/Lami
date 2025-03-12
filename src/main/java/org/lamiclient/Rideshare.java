@@ -108,7 +108,7 @@ class Uber extends Trip{
             System.out.println("Fare: R" + distance * 12.50 );
 
         } else if (quality.equals("F")){
-            System.out.println("Grade F Vehicle. Fare siginificantly reduced :)");
+            System.out.println("Grade F Vehicle. Fare significantly reduced :)");
             fare = distance;
             System.out.println("Fare: R" + distance * 5.50);
 
