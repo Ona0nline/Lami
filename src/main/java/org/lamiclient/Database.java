@@ -1,8 +1,12 @@
 package org.lamiclient;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class Database {
@@ -27,45 +31,180 @@ public class Database {
     }
 }
 
-class Insert extends Database{
-    public static void insertDriver( int id,String name,String surname,String phone_number,String email,String password,boolean is_available,String license_plate,String car,String location,boolean complete_ride, int payment_id) throws SQLException {
-         String sql = "INSERT INTO taxi( id,name,surname,phone_number,email,password,is_available,license_plate,car, location, complete_ride,payment_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+class Insert {
+
+    // Method to insert a driver
+    public static void insertDriver(int id, String name, String surname, String phone_number, String email, String password,
+                                    boolean is_available, String license_plate, String car, String location, boolean complete_ride, int payment_id) {
+        String sql = "INSERT INTO drivers(id, name, surname, phone_number, email, password, is_available, license_plate, car, location, complete_ride, payment_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = Database.connection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)){
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             conn.setAutoCommit(true);
-            pstmt.setInt(1,id);
-            pstmt.setString(2,name);
-            pstmt.setString(3,surname);
-            pstmt.setString(4,phone_number);
-            pstmt.setString(5,email);
-            pstmt.setString(6,password);
-            pstmt.setBoolean(7,is_available);
-            pstmt.setString(8,license_plate);
-            pstmt.setString(9,car);
-            pstmt.setString(10,location);
-            pstmt.setBoolean(11,complete_ride);
-            pstmt.setInt(12,payment_id);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, surname);
+            pstmt.setString(4, phone_number);
+            pstmt.setString(5, email);
+            pstmt.setString(6, password);
+            pstmt.setBoolean(7, is_available);
+            pstmt.setString(8, license_plate);
+            pstmt.setString(9, car);
+            pstmt.setString(10, location);
+            pstmt.setBoolean(11, complete_ride);
+            pstmt.setInt(12, payment_id);
 
-            pstmt.executeUpdate();
-            System.out.println("Driver data injected");
+            int rowsInserted = pstmt.executeUpdate();
+            System.out.println(rowsInserted + " row(s) inserted for driver.");
 
-    }catch(SQLException e){
-            System.out.println(e.getMessage());
-
-    }
-    }
-
-    public static void main(String[] args) {
-        connection();  // Test connection
-
-        try {
-            Insert.insertDriver(1, "Sifiso", "Jonga", "+27 81 773 4590", "sifisoj@gmail.com", "",
-                    true, "CA 349 821", "Toyota Corolla", "Cape Town", false, 101);
         } catch (SQLException e) {
-            System.out.println("Insertion error: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Insertion error for driver: " + e.getMessage());
         }
     }
 
+    // Method to insert a user
+    public static void insertUsers(int id, String name, String surname, String username, String email, String phone_number, String password, String location) {
+        String sql = "INSERT INTO users(id, name, surname, username, email, phone_number, password, location) VALUES (?,?,?,?,?,?,?,?)";
+        System.out.println("Attempting to insert user with ID: " + id);
 
+        try (Connection conn = Database.connection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            conn.setAutoCommit(true);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, surname);
+            pstmt.setString(4, username);
+            pstmt.setString(5, email);
+            pstmt.setString(6, phone_number);
+            pstmt.setString(7, password);
+            pstmt.setString(8, location);
+
+            int rowsInserted = pstmt.executeUpdate();
+            System.out.println(rowsInserted + " row(s) inserted for user.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Insertion error for user: " + e.getMessage());
+        }
+    }
+
+    public static void insertLami(int id, int driver_id,int license_plate_id, int car_id, String start_location, String end_location, double fare, String ride_status, String payment_status,int estimated_time,double distance){
+        System.out.println("LLL");
+        String sql = "INSERT INTO lami(id,driver_id, license_plate_id,car_id,  start_location,  end_location, double fare,  ride_status,  payment_status, estimated_time,distance) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+//        try-catch with resources. Prevents you from having to declare empty variables and then populate them later
+        System.out.println("Inserting...");
+        try (Connection conn = Database.connection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1,id);
+            pstmt.setInt(1,driver_id);
+            pstmt.setInt(1,license_plate_id);
+            pstmt.setInt(1,car_id);
+            pstmt.setString(5,start_location);
+            pstmt.setString(5,end_location);
+            pstmt.setDouble(7,fare);
+            pstmt.setString(8,ride_status);
+            pstmt.setString(9,payment_status);
+            pstmt.setInt(10,estimated_time);
+            pstmt.setDouble(11,distance);
+
+            pstmt.executeUpdate();
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+
+        }
+
+  }
+
+    // Main method to test both insertions
+    public static void main(String[] args) {
+//        93 employed I guess..
+
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 1; i <= 93; i++) {
+            ids.add(i);
+        }
+
+        // List of start locations (random South African locations)
+        List<String> startLocations = Arrays.asList(
+                "Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth",
+                "Bloemfontein", "East London", "Pietermaritzburg", "Kimberley", "Polokwane",
+                "Nelspruit", "Rustenburg", "George", "Knysna", "Stellenbosch", "Soweto",
+                "Sandton", "Randburg", "Midrand", "Centurion", "Paarl", "Worcester", "Oudtshoorn",
+                "Mossel Bay", "Hermanus", "Somerset West", "Stellenbosch", "Franschhoek", "Clarens",
+                "Dullstroom", "Hazyview", "White River", "Mbombela", "Plettenberg Bay", "Jeffreys Bay",
+                "Graaff-Reinet", "Beaufort West", "Upington", "Kuruman", "Vryburg", "Mahikeng", "Lichtenburg",
+                "Potchefstroom", "Klerksdorp", "Vereeniging", "Vanderbijlpark", "Sasolburg", "Welkom", "Bethlehem",
+                "Phuthaditjhaba", "Qwaqwa", "Thaba Nchu", "Ladybrand", "Ficksburg", "Clocolan", "Harrismith", "Kroonstad",
+                "Bothaville", "Villiers", "Frankfort", "Heilbron", "Parys", "Vredefort", "Koppies", "Lindley", "Reitz",
+                "Petrus Steyn", "Senekal", "Marquard", "Clarens", "Fouriesburg", "Bethulie", "Aliwal North", "Barkly East",
+                "Lady Frere", "Cofimvaba", "Queenstown", "Cathcart", "Stutterheim", "King William's Town", "Butterworth",
+                "Mthatha", "Port St Johns", "Lusikisiki", "Mount Frere", "Mount Ayliff", "Matatiele", "Kokstad", "Harding",
+                "Port Shepstone", "Margate", "Ramsgate", "Southbroom", "Umkomaas", "Amanzimtoti", "Umlazi", "Isipingo"
+        );
+
+        // List of end locations (random South African locations)
+        List<String> endLocations = new ArrayList<>(startLocations);
+        Collections.shuffle(endLocations); // Shuffle to randomize end locations
+
+        // List of distances (random distances between 5 km and 200 km)
+        List<Double> distances = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 93; i++) {
+            distances.add(5 + random.nextDouble() * 195); // Random distance between 5 and 200 km
+        }
+
+        // List of estimated times (calculated based on distance and average speed of 60 km/h)
+        List<Integer> estimatedTimes = new ArrayList<>();
+        for (double distance : distances) {
+            estimatedTimes.add((int) (distance / 60 * 60)); // Convert distance to minutes
+        }
+
+        // List of fares (calculated as distance * 5.50, 10.50, or 12.50)
+        List<Double> fares = new ArrayList<>();
+        for (double distance : distances) {
+            int fareType = random.nextInt(3); // Randomly choose fare type
+            double fare = 0;
+            switch (fareType) {
+                case 0:
+                    fare = distance * 5.50;
+                    break;
+                case 1:
+                    fare = distance * 10.50;
+                    break;
+                case 2:
+                    fare = distance * 12.50;
+                    break;
+            }
+            fares.add(fare);
+        }
+
+        List<String> ridestatuses = new ArrayList<>();
+        String[] ridestatuses_ = {"Pending", "Begin", "Done"};
+        for (int i = 0; i < 93; i++) {
+            ridestatuses.add(ridestatuses_[random.nextInt(3)]);
+        }
+
+        // List of payment statuses (randomly chosen from "Pending", "Approved", or "Declined")
+        List<String> paymentStatuses = new ArrayList<>();
+        String[] statusOptions = {"Pending", "Approved", "Declined"};
+        for (int i = 0; i < 93; i++) {
+            paymentStatuses.add(statusOptions[random.nextInt(3)]);
+        }
+
+
+// Payment IDs (unique)
+
+        // Test inserting a driver
+        try {
+            for (int i = 0; i < ids.size(); i++) {
+                insertLami(ids.get(i), ids.get(i), ids.get(i), ids.get(i), startLocations.get(i), endLocations.get(i), fares.get(i), ridestatuses.get(i), paymentStatuses.get(i), estimatedTimes.get(i), distances.get(i));
+            }
+        } catch (Exception e) {
+            System.out.println("Error inserting driver: " + e.getMessage());
+        }
+
+    }
 }
