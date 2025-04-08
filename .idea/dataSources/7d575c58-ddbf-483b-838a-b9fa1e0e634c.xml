@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-03-13.07:26:24</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-04-04.12:26:58</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1695,408 +1695,413 @@
       <Position>4</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="585" parent="556" name="start_location">
+    <column id="585" parent="556" name="quality">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="586" parent="556" name="end_location">
+    <column id="586" parent="556" name="start_location">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="587" parent="556" name="fare">
+    <column id="587" parent="556" name="end_location">
       <NotNull>1</NotNull>
       <Position>7</Position>
-      <StoredType>DOUBLE|0s</StoredType>
-    </column>
-    <column id="588" parent="556" name="ride_status">
-      <NotNull>1</NotNull>
-      <Position>8</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="589" parent="556" name="payment_status">
+    <column id="588" parent="556" name="fare">
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StoredType>DOUBLE|0s</StoredType>
+    </column>
+    <column id="589" parent="556" name="ride_status">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="590" parent="556" name="estimated_time">
+    <column id="590" parent="556" name="payment_status">
+      <NotNull>1</NotNull>
       <Position>10</Position>
-      <StoredType>NUMERIC|0s</StoredType>
+      <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="591" parent="556" name="distance">
+    <column id="591" parent="556" name="estimated_time">
       <Position>11</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <foreign-key id="592" parent="556">
-      <ColNames>driver_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>drivers</RefTableName>
-    </foreign-key>
+    <column id="592" parent="556" name="distance">
+      <Position>12</Position>
+      <StoredType>NUMERIC|0s</StoredType>
+    </column>
     <foreign-key id="593" parent="556">
-      <ColNames>license_plate_id</ColNames>
+      <ColNames>driver_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>drivers</RefTableName>
     </foreign-key>
     <foreign-key id="594" parent="556">
+      <ColNames>license_plate_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>drivers</RefTableName>
+    </foreign-key>
+    <foreign-key id="595" parent="556">
       <ColNames>car_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>drivers</RefTableName>
     </foreign-key>
-    <key id="595" parent="556">
+    <key id="596" parent="556">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="596" parent="557" name="id">
+    <column id="597" parent="557" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="597" parent="557" name="preferred_driver">
+    <column id="598" parent="557" name="preferred_driver">
       <Position>2</Position>
       <StoredType>BOOLEAN|0s</StoredType>
     </column>
-    <column id="598" parent="557" name="driver_id">
+    <column id="599" parent="557" name="driver_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="599" parent="557" name="license_plate_id">
+    <column id="600" parent="557" name="license_plate_id">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="600" parent="557" name="car_id">
+    <column id="601" parent="557" name="car_id">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="601" parent="557" name="on_board_features">
+    <column id="602" parent="557" name="on_board_features">
       <Position>6</Position>
       <StoredType>LIST|0s</StoredType>
     </column>
-    <column id="602" parent="557" name="requests">
+    <column id="603" parent="557" name="requests">
       <Position>7</Position>
       <StoredType>LIST|0s</StoredType>
     </column>
-    <column id="603" parent="557" name="membership_status">
+    <column id="604" parent="557" name="membership_status">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="604" parent="557" name="start_location">
+    <column id="605" parent="557" name="start_location">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="605" parent="557" name="end_location">
+    <column id="606" parent="557" name="end_location">
       <NotNull>1</NotNull>
       <Position>10</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="606" parent="557" name="fare">
+    <column id="607" parent="557" name="fare">
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StoredType>DOUBLE|0s</StoredType>
     </column>
-    <column id="607" parent="557" name="ride_status">
+    <column id="608" parent="557" name="ride_status">
       <NotNull>1</NotNull>
       <Position>12</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="608" parent="557" name="payment_status">
+    <column id="609" parent="557" name="payment_status">
       <NotNull>1</NotNull>
       <Position>13</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="609" parent="557" name="estimated_time">
+    <column id="610" parent="557" name="estimated_time">
       <Position>14</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <column id="610" parent="557" name="distance">
+    <column id="611" parent="557" name="distance">
       <Position>15</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <column id="611" parent="558" name="id">
+    <column id="612" parent="558" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="612" parent="558" name="user_id">
+    <column id="613" parent="558" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="613" parent="558" name="driver_id">
+    <column id="614" parent="558" name="driver_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="614" parent="558" name="payment_type">
+    <column id="615" parent="558" name="payment_type">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="615" parent="558" name="timestamp">
+    <column id="616" parent="558" name="timestamp">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>DATE|0s</StoredType>
     </column>
-    <column id="616" parent="558" name="amount">
+    <column id="617" parent="558" name="amount">
       <Position>6</Position>
       <StoredType>DOUBLE|0s</StoredType>
     </column>
-    <column id="617" parent="558" name="transaction_id">
+    <column id="618" parent="558" name="transaction_id">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <foreign-key id="618" parent="558">
+    <foreign-key id="619" parent="558">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <foreign-key id="619" parent="558">
+    <foreign-key id="620" parent="558">
       <ColNames>driver_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>drivers</RefTableName>
     </foreign-key>
-    <foreign-key id="620" parent="558">
+    <foreign-key id="621" parent="558">
       <ColNames>transaction_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>transactions</RefTableName>
     </foreign-key>
-    <key id="621" parent="558">
+    <key id="622" parent="558">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="622" parent="559" name="id">
+    <column id="623" parent="559" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="623" parent="559" name="location">
+    <column id="624" parent="559" name="location">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="624" parent="559" name="route_id">
+    <column id="625" parent="559" name="route_id">
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <foreign-key id="625" parent="559">
+    <foreign-key id="626" parent="559">
       <ColNames>route_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>routes</RefTableName>
     </foreign-key>
-    <key id="626" parent="559">
+    <key id="627" parent="559">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="627" parent="560" name="id">
+    <column id="628" parent="560" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="628" parent="560" name="start_location">
+    <column id="629" parent="560" name="start_location">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="629" parent="560" name="end_location">
+    <column id="630" parent="560" name="end_location">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="630" parent="560" name="stops">
+    <column id="631" parent="560" name="stops">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>LIST|0s</StoredType>
     </column>
-    <column id="631" parent="560" name="major_road">
+    <column id="632" parent="560" name="major_road">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="632" parent="560" name="estimated_duraton">
+    <column id="633" parent="560" name="estimated_duraton">
       <Position>6</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <key id="633" parent="560">
+    <key id="634" parent="560">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="634" parent="561" name="type">
+    <column id="635" parent="561" name="type">
       <Position>1</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="635" parent="561" name="name">
+    <column id="636" parent="561" name="name">
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="636" parent="561" name="tbl_name">
+    <column id="637" parent="561" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="637" parent="561" name="rootpage">
+    <column id="638" parent="561" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="638" parent="561" name="sql">
+    <column id="639" parent="561" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="639" parent="562" name="id">
+    <column id="640" parent="562" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="640" parent="562" name="user_id">
+    <column id="641" parent="562" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="641" parent="562" name="action">
+    <column id="642" parent="562" name="action">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="642" parent="562" name="validity">
+    <column id="643" parent="562" name="validity">
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="643" parent="562" name="bank">
+    <column id="644" parent="562" name="bank">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="644" parent="562" name="account_number">
+    <column id="645" parent="562" name="account_number">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <column id="645" parent="562" name="amount">
+    <column id="646" parent="562" name="amount">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>DOUBLE|0s</StoredType>
     </column>
-    <foreign-key id="646" parent="562">
+    <foreign-key id="647" parent="562">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <key id="647" parent="562">
+    <key id="648" parent="562">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="648" parent="563" name="id">
+    <column id="649" parent="563" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="649" parent="563" name="user_id">
+    <column id="650" parent="563" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="650" parent="563" name="transaction_id">
+    <column id="651" parent="563" name="transaction_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="651" parent="563" name="start_location">
+    <column id="652" parent="563" name="start_location">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="652" parent="563" name="booking_id">
+    <column id="653" parent="563" name="booking_id">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <column id="653" parent="563" name="ride_end_id">
+    <column id="654" parent="563" name="ride_end_id">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <column id="654" parent="563" name="end_location">
+    <column id="655" parent="563" name="end_location">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <foreign-key id="655" parent="563">
+    <foreign-key id="656" parent="563">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <foreign-key id="656" parent="563">
+    <foreign-key id="657" parent="563">
       <ColNames>transaction_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>transactions</RefTableName>
     </foreign-key>
-    <key id="657" parent="563">
+    <key id="658" parent="563">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="658" parent="564" name="id">
+    <column id="659" parent="564" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="659" parent="564" name="name">
+    <column id="660" parent="564" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="660" parent="564" name="surname">
+    <column id="661" parent="564" name="surname">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="661" parent="564" name="username">
+    <column id="662" parent="564" name="username">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="662" parent="564" name="email">
+    <column id="663" parent="564" name="email">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="663" parent="564" name="phone_number">
+    <column id="664" parent="564" name="phone_number">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>NUMERIC|0s</StoredType>
     </column>
-    <column id="664" parent="564" name="password">
+    <column id="665" parent="564" name="password">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="665" parent="564" name="location">
+    <column id="666" parent="564" name="location">
       <Position>8</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <index id="666" parent="564" name="sqlite_autoindex_users_1">
+    <index id="667" parent="564" name="sqlite_autoindex_users_1">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="667" parent="564" name="sqlite_autoindex_users_2">
+    <index id="668" parent="564" name="sqlite_autoindex_users_2">
       <ColNames>phone_number</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="668" parent="564" name="sqlite_autoindex_users_3">
+    <index id="669" parent="564" name="sqlite_autoindex_users_3">
       <ColNames>password</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="669" parent="564">
+    <key id="670" parent="564">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="670" parent="564">
+    <key id="671" parent="564">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
     </key>
-    <key id="671" parent="564">
+    <key id="672" parent="564">
       <ColNames>phone_number</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_2</UnderlyingIndexName>
     </key>
-    <key id="672" parent="564">
+    <key id="673" parent="564">
       <ColNames>password</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_3</UnderlyingIndexName>
     </key>

@@ -1,12 +1,10 @@
-package org.lamiclient;
-import java.io.File;
+package database;
+import javax.print.DocFlavor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class Database {
@@ -18,7 +16,6 @@ public class Database {
         try{
             String url = "jdbc:sqlite:clients.db";
             conn = DriverManager.getConnection(url);
-            System.out.println("Connected to database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -26,9 +23,7 @@ public class Database {
         return conn;
     }
 
-    public static void main(String[] args) {
-        connection();  // Test the connection
-    }
+
 }
 
 class Insert {
@@ -89,29 +84,32 @@ class Insert {
         }
     }
 
-    public static void insertLami(int id, int driver_id,int license_plate_id, int car_id, String start_location, String end_location, double fare, String ride_status, String payment_status,int estimated_time,double distance){
-        System.out.println("LLL");
-        String sql = "INSERT INTO lami(id,driver_id, license_plate_id,car_id,  start_location,  end_location, double fare,  ride_status,  payment_status, estimated_time,distance) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-//        try-catch with resources. Prevents you from having to declare empty variables and then populate them later
+    public static void insertLami(int id, int driver_id, int license_plate_id, int car_id, String quality, String start_location, String end_location, double fare, String ride_status, String payment_status, int estimated_time, double distance){
+        String sql = "INSERT INTO lami(id, driver_id, license_plate_id, car_id, quality,start_location, end_location, fare, ride_status, payment_status, estimated_time, distance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         System.out.println("Inserting...");
         try (Connection conn = Database.connection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            conn.setAutoCommit(true);
             pstmt.setInt(1,id);
-            pstmt.setInt(1,driver_id);
-            pstmt.setInt(1,license_plate_id);
-            pstmt.setInt(1,car_id);
-            pstmt.setString(5,start_location);
-            pstmt.setString(5,end_location);
-            pstmt.setDouble(7,fare);
-            pstmt.setString(8,ride_status);
-            pstmt.setString(9,payment_status);
-            pstmt.setInt(10,estimated_time);
-            pstmt.setDouble(11,distance);
+            pstmt.setInt(2,driver_id);
+            pstmt.setInt(3,license_plate_id);
+            pstmt.setInt(4,car_id);
+            pstmt.setString(5,quality);
+            pstmt.setString(6,start_location);
+            pstmt.setString(7,end_location);
+            pstmt.setDouble(8,fare);
+            pstmt.setString(9,ride_status);
+            pstmt.setString(10,payment_status);
+            pstmt.setInt(11,estimated_time);
+            pstmt.setDouble(12,distance);
 
-            pstmt.executeUpdate();
+
+            int rowsInserted = pstmt.executeUpdate();
+            System.out.println(rowsInserted + " row(s) inserted for user.");
 
 
         }catch (SQLException e){
+            System.out.println(e.getMessage());
             e.printStackTrace();
 
         }
@@ -121,11 +119,18 @@ class Insert {
     // Main method to test both insertions
     public static void main(String[] args) {
 //        93 employed I guess..
-
+        Random random = new Random();
         List<Integer> ids = new ArrayList<>();
         for (int i = 1; i <= 93; i++) {
             ids.add(i);
         }
+
+        List<String> quality = new ArrayList<>();
+        String[] quality_ops = {"A", "B", "C","D"};
+        for (int i = 0; i < 93; i++) {
+            quality.add(quality_ops[random.nextInt(4)]);
+        }
+
 
         // List of start locations (random South African locations)
         List<String> startLocations = Arrays.asList(
@@ -151,16 +156,17 @@ class Insert {
 
         // List of distances (random distances between 5 km and 200 km)
         List<Double> distances = new ArrayList<>();
-        Random random = new Random();
+
         for (int i = 0; i < 93; i++) {
             distances.add(5 + random.nextDouble() * 195); // Random distance between 5 and 200 km
         }
 
-        // List of estimated times (calculated based on distance and average speed of 60 km/h)
         List<Integer> estimatedTimes = new ArrayList<>();
         for (double distance : distances) {
-            estimatedTimes.add((int) (distance / 60 * 60)); // Convert distance to minutes
+            double roundedDistance = Math.round(distance * 100.0) / 100.0; // Round to 2 decimal places
+            estimatedTimes.add((int) Math.round(roundedDistance / 60)); // Convert to minutes
         }
+
 
         // List of fares (calculated as distance * 5.50, 10.50, or 12.50)
         List<Double> fares = new ArrayList<>();
@@ -169,13 +175,13 @@ class Insert {
             double fare = 0;
             switch (fareType) {
                 case 0:
-                    fare = distance * 5.50;
+                    fare = Math.round(distance * 5.50 * 100.0) / 100.0;
                     break;
                 case 1:
-                    fare = distance * 10.50;
+                    fare = Math.round(distance * 10.50 * 100.0) / 100.0;
                     break;
                 case 2:
-                    fare = distance * 12.50;
+                    fare = Math.round(distance * 12.50 * 100.0) / 100.0;
                     break;
             }
             fares.add(fare);
@@ -200,7 +206,7 @@ class Insert {
         // Test inserting a driver
         try {
             for (int i = 0; i < ids.size(); i++) {
-                insertLami(ids.get(i), ids.get(i), ids.get(i), ids.get(i), startLocations.get(i), endLocations.get(i), fares.get(i), ridestatuses.get(i), paymentStatuses.get(i), estimatedTimes.get(i), distances.get(i));
+                insertLami(ids.get(i), ids.get(i), ids.get(i), ids.get(i), quality.get(i), startLocations.get(i), endLocations.get(i), fares.get(i), ridestatuses.get(i), paymentStatuses.get(i), estimatedTimes.get(i), distances.get(i));
             }
         } catch (Exception e) {
             System.out.println("Error inserting driver: " + e.getMessage());
