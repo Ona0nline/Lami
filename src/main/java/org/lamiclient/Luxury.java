@@ -2,6 +2,7 @@ package org.lamiclient;
 
 import database.Database;
 
+import java.lang.invoke.StringConcatFactory;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,8 +18,8 @@ public class Luxury extends Trip {
     private String driver_name;
     private String license_plate;
     private String car;
-    private ArrayList<String> onboard;
-    private ArrayList<String> requests;
+    private String onboard;
+    private String request;
     private String start_location;
     private String end_location;
     private double fare;
@@ -33,7 +34,7 @@ public class Luxury extends Trip {
     }
 
     //    Tekporary constructor overloading to deal with new attributes
-    public Luxury(int id, String driver_name, String license_plate, String car, ArrayList<String> onboard, String start_location, String end_location,
+    public Luxury(int id, String driver_name, String license_plate, String car, String onboard, String request, String start_location, String end_location,
                 double fare, String ride_status, String payment_status, BigDecimal estimated_time, BigDecimal distance){
         super();
         this.id = id;
@@ -41,6 +42,7 @@ public class Luxury extends Trip {
         this.license_plate = license_plate;
         this.car = car;
         this.onboard = onboard;
+        this.request = request;
         this.start_location = start_location;
         this.end_location = end_location;
         this.fare = fare;
@@ -66,24 +68,26 @@ public class Luxury extends Trip {
     int excuse = (int)(Math.random() * excuses.length);
 
     private static ArrayList<Luxury> fetchAvailableLuxes() {
-        ArrayList<Luxury> lamis = new ArrayList<>();
+        ArrayList<Luxury> luxuries = new ArrayList<>();
 
-        String sql = "SELECT lami.*, drivers.name AS driver_name, drivers.license_plate AS license_plate, drivers.car AS car " +
-                "FROM lami " +
-                "JOIN drivers ON lami.driver_id = drivers.id " +
+        String sql = "SELECT luxuries.*, drivers.name AS driver_name, drivers.license_plate AS license_plate, drivers.car AS car " +
+                "FROM luxuries " +
+                "JOIN drivers ON luxuries.driver_id = drivers.id " +
                 "WHERE drivers.is_available = 1 AND car IS NOT 'Taxi'";
 
         try (Connection conn = Database.connection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+
             while (rs.next()) {
-                lamis.add(new Luxury(
+                luxuries.add(new Luxury(
                         rs.getInt("id"),
                         rs.getString("driver_name"),
                         rs.getString("license_plate"),
                         rs.getString("car"),
                         rs.getString("on_board_features"),
+                        rs.getString("request"),
                         rs.getString("start_location"),
                         rs.getString("end_location"),
                         rs.getDouble("fare"),
@@ -98,7 +102,7 @@ public class Luxury extends Trip {
             System.err.println("Database error: " + e.getMessage());
         }
 
-        return lamis;
+        return luxuries;
     }
 
 

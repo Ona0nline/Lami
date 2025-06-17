@@ -84,24 +84,27 @@ class Insert {
         }
     }
 
-    public static void insertLami(int id, int driver_id, int license_plate_id, int car_id, String quality, String start_location, String end_location, double fare, String ride_status, String payment_status, int estimated_time, double distance){
-        String sql = "INSERT INTO lami(id, driver_id, license_plate_id, car_id, quality,start_location, end_location, fare, ride_status, payment_status, estimated_time, distance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static void insertLuxuries(int id, boolean preferred_driver, int driver_id, int license_plate_id, int car_id, String onboard, String membership_status,
+                                      String start_location, String end_location, double fare, String ride_status, String payment_status, int estimated_time, double distance){
+        String sql = "INSERT INTO luxuries(id, preferred_driver,driver_id, license_plate_id, car_id,on_board_features , membership_status, start_location, end_location, fare, ride_status, payment_status, estimated_time, distance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         System.out.println("Inserting...");
         try (Connection conn = Database.connection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             conn.setAutoCommit(true);
             pstmt.setInt(1,id);
-            pstmt.setInt(2,driver_id);
-            pstmt.setInt(3,license_plate_id);
-            pstmt.setInt(4,car_id);
-            pstmt.setString(5,quality);
-            pstmt.setString(6,start_location);
-            pstmt.setString(7,end_location);
-            pstmt.setDouble(8,fare);
-            pstmt.setString(9,ride_status);
-            pstmt.setString(10,payment_status);
-            pstmt.setInt(11,estimated_time);
-            pstmt.setDouble(12,distance);
+            pstmt.setBoolean(2,preferred_driver);
+            pstmt.setInt(3, driver_id);
+            pstmt.setInt(4,license_plate_id);
+            pstmt.setInt(5,car_id);
+            pstmt.setString(6,onboard);
+            pstmt.setString(7,membership_status);
+            pstmt.setString(8,start_location);
+            pstmt.setString(9,end_location);
+            pstmt.setDouble(10,fare);
+            pstmt.setString(11,ride_status);
+            pstmt.setString(12,payment_status);
+            pstmt.setInt(13,estimated_time);
+            pstmt.setDouble(14,distance);
 
 
             int rowsInserted = pstmt.executeUpdate();
@@ -125,10 +128,27 @@ class Insert {
             ids.add(i);
         }
 
-        List<String> quality = new ArrayList<>();
-        String[] quality_ops = {"A", "B", "C","D"};
+        ArrayList<Boolean> Luxdrivers = new ArrayList<>();
+        Boolean[] driver_ops = {true,false};
         for (int i = 0; i < 93; i++) {
-            quality.add(quality_ops[random.nextInt(4)]);
+            Luxdrivers.add(driver_ops[random.nextInt(2)]);
+        }
+
+        ArrayList<String> onboard = new ArrayList<>();
+        String[] onboardFeatures = {"Wi-Fi, Air Conditioning, GPS", "Bluetooth, Charging Ports, Leather Seats", "Wine Cooler, Ambient Lighting, Panoramic Roof", "Backup Camera, USB Ports, Touchscreen Display",
+                "Complimentary Slippers, Hand Sanitizer, Wi-Fi",
+        "Wireless Charging, GPS, Sunroof", "Mini Fridge, Bluetooth Speakers, Air Conditioning","Touchscreen Display, Heated Seats, Aux Cable","GPS, Wireless Charging, USB Ports",
+        "Built-in Juicer, USB Ports, Leather Seats","Wi-Fi, Charging Ports, Car Play","Drink Dispenser, Massage Seats, Sunroof","Champagne Cooler, USB Ports, Backup Camera",
+        "Car Diffuser, Coffee Maker, Charging Ports","Hand Warmers, Fresh Towels, USB Ports","Complimentary Snacks, Phone Mount, Wi-Fi",
+        "Bottle of Water, Healthy Snacks, Bluetooth","Hand Cream, Snacks, Ambient Lighting","Complimentary Masks, Wet Wipes, Air Conditioning"};
+        for (int i = 0; i < 93; i++) {
+            onboard.add(onboardFeatures[random.nextInt()]);
+        }
+
+        ArrayList<String> membershipstats = new ArrayList<>();
+        String[] membershipstats_ = {"Standard", "Gold","Platinum", "Black"};
+        for (int i = 0; i < 93; i++) {
+            membershipstats.add(membershipstats_[random.nextInt()]);
         }
 
 
@@ -168,20 +188,22 @@ class Insert {
         }
 
 
-        // List of fares (calculated as distance * 5.50, 10.50, or 12.50)
+        // List of fares
         List<Double> fares = new ArrayList<>();
-        for (double distance : distances) {
-            int fareType = random.nextInt(3); // Randomly choose fare type
+        for (String membership : membershipstats_) {
+            int membershipType = random.nextInt(4);
             double fare = 0;
-            switch (fareType) {
-                case 0:
-                    fare = Math.round(distance * 5.50 * 100.0) / 100.0;
-                    break;
+            switch (membershipType) {
                 case 1:
-                    fare = Math.round(distance * 10.50 * 100.0) / 100.0;
+                    fare = Math.round(10.50 * 100.0) / 100.0;
                     break;
                 case 2:
-                    fare = Math.round(distance * 12.50 * 100.0) / 100.0;
+                    fare = Math.round(15.50 * 100.0) / 100.0;
+                    break;
+                case 3:
+                    fare = Math.round(17.50 * 100.0) / 100.0;
+                case 4:
+                    fare = Math.round(21.50 * 100.0) / 100.0;
                     break;
             }
             fares.add(fare);
@@ -201,12 +223,10 @@ class Insert {
         }
 
 
-// Payment IDs (unique)
 
-        // Test inserting a driver
         try {
             for (int i = 0; i < ids.size(); i++) {
-                insertLami(ids.get(i), ids.get(i), ids.get(i), ids.get(i), quality.get(i), startLocations.get(i), endLocations.get(i), fares.get(i), ridestatuses.get(i), paymentStatuses.get(i), estimatedTimes.get(i), distances.get(i));
+                insertLuxuries(ids.get(i), Luxdrivers.get(i), ids.get(i), ids.get(i), ids.get(i), onboard.get(i), membershipstats.get(i), startLocations.get(i), endLocations.get(i), fares.get(i), ridestatuses.get(i), paymentStatuses.get(i), estimatedTimes.get(i), distances.get(i));
             }
         } catch (Exception e) {
             System.out.println("Error inserting driver: " + e.getMessage());
